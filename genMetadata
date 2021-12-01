@@ -1,8 +1,8 @@
 #!/bin/bash
 
-rm *.meta.js 2> /dev/null
+rm */*.meta.js 2> /dev/null
 
-ls *.user.js | while read f
+ls */*.user.js | while read f
 do
 	meta=$(echo "$f" | sed 's/user.js$/meta.js/')
 	sed '1,/\/\/ ==\/UserScript==/!d' "$f" > "$meta"

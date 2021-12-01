@@ -1,3 +1,5 @@
 #!/bin/bash
 
-sed "s/{NAME}/$1/" template.js > "$1.user.js"
+mkdir -p "$1"
+
+sed "s/{NAME}/$1/" template.js > "$1/$1.user.js"
