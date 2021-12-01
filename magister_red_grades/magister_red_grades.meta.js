@@ -4,8 +4,8 @@
 // @version      1.0.1
 // @description  My reaction to the fact that Magister removed red grades
 // @author       antonilol
-// @updateURL    https://raw.githubusercontent.com/antonilol/userscripts/master/magister_red_grades.meta.js
-// @downloadURL  https://raw.githubusercontent.com/antonilol/userscripts/master/magister_red_grades.user.js
+// @updateURL    https://raw.githubusercontent.com/antonilol/userscripts/master/magister_red_grades/magister_red_grades.meta.js
+// @downloadURL  https://raw.githubusercontent.com/antonilol/userscripts/master/magister_red_grades/magister_red_grades.user.js
 // @match        https://marnix.magister.net/magister/
 // @icon         https://marnix.magister.net/favicon.ico
 // @grant        none
