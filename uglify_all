@@ -1,0 +1,32 @@
+#!/bin/bash
+
+tmp="/tmp/tmp.js"
+
+./update_meta
+
+npx uglifyjs --help > /dev/null 2> /dev/null
+
+if [[ $? == 1 ]]; then
+	echo "uglify-js not found, installing..."
+	npm i --no-save uglify-js
+fi
+
+rm */*.min.user.js 2> /dev/null
+
+ls */*.user.js | while read f
+do
+	u=$(echo "$f" | sed 's/user.js$/min.user.js/')
+	meta=$(echo "$f" | sed 's/user.js$/meta.js/')
+	umeta=$(echo "$f" | sed 's/user.js$/min.meta.js/')
+	echo "(_=>{" > "$u"
+	cat "$f" >> "$u"
+	echo -e "\n})()" >> "$u"
+	npx uglifyjs "$u" -cmo "$u"
+	echo | cat "$meta" - "$u" > "$tmp"
+	echo | cat "$tmp" - > "$u"
+	sed -i "s/.user.js$/.min.user.js/;s/.meta.js$/.min.meta.js/" "$u"
+done
+
+rm "$tmp"
+
+./update_meta
