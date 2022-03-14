@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Encrypted Google Docs Chat
 // @namespace    https://github.com/antonilol/userscripts
-// @version      1.0.1
+// @version      1.0.2
 // @description  End to end encryption between users in Google Docs chat
 // @author       antonilol
 // @updateURL    https://raw.githubusercontent.com/antonilol/userscripts/master/encrypted_google_docs_chat/encrypted_google_docs_chat.meta.js
@@ -127,7 +127,7 @@ function receive(s, sender) {
 	if (sender) {
 		if (!keys[sender.id]) {
 			try {
-				if (s.length == 450 || s.length == 451) {
+				if (s.replace(/\n/g,'').length == 442) {
 					const p = forge.pki.publicKeyFromPem(s);
 					if (p && p.e && p.n && p.encrypt) {
 						if (fingerprint(p) == fingerprint(pub) && (!me || me.id == sender.id)) {
