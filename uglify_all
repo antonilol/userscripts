@@ -8,7 +8,7 @@ npx uglifyjs --help > /dev/null 2> /dev/null
 
 if [[ $? == 1 ]]; then
 	echo "uglify-js not found, installing..."
-	npm i --no-save uglify-js
+	npm i uglify-js
 fi
 
 rm */*.min.user.js 2> /dev/null
