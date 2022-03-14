@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Encrypted Google Docs Chat
 // @namespace    https://github.com/antonilol/userscripts
-// @version      1.0.2
+// @version      1.0.3
 // @description  End to end encryption between users in Google Docs chat
 // @author       antonilol
 // @updateURL    https://raw.githubusercontent.com/antonilol/userscripts/master/encrypted_google_docs_chat/encrypted_google_docs_chat.meta.js

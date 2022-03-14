@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Encrypted Google Docs Chat
 // @namespace    https://github.com/antonilol/userscripts
-// @version      1.0.2
+// @version      1.0.3
 // @description  End to end encryption between users in Google Docs chat
 // @author       antonilol
 // @updateURL    https://raw.githubusercontent.com/antonilol/userscripts/master/encrypted_google_docs_chat/encrypted_google_docs_chat.meta.js
@@ -21,7 +21,9 @@ const keys = {}, keyCache = [];
 
 var me, pub, pem, priv;
 
-var chatInput, chatLog;
+var encryptMessages = true;
+
+var chatInput, chatLog, chatHead;
 
 forge.pki.rsa.generateKeyPair({ bits: 2048, workers: 2 }, (err, k) => {
 	if (err) {
@@ -115,7 +117,10 @@ function decrypt(s, fromMe) {
 // return in the function what should
 // be sent to others in the document
 function send(s) {
-	return encrypt(s, Object.keys(keys));
+	if (encryptMessages) {
+		return encrypt(s, Object.keys(keys));
+	}
+	return s;
 }
 
 // called when a message is received
@@ -173,8 +178,9 @@ function obsOff() {
 function setup() {
 	chatInput = c('docs-chat-edit-box');
 	chatLog = c('docs-chat-messages');
+	chatHead = c('docs-chat-title-message');
 
-	if (!chatInput || !chatLog || !pem) {
+	if (!chatInput || !chatLog || !chatHead || !pem) {
 		setTimeout(setup, 500);
 		return;
 	}
@@ -264,6 +270,22 @@ function setup() {
 	obsOn();
 
 	setTimeout(() => sendMessage(pem), 2500);
+
+	const label = document.createElement('label');
+	label.style.font = 'normal 500 12px/16px Roboto,sans-serif';
+
+	const input = document.createElement('input');
+	input.type = 'checkbox';
+	input.checked = true;
+	input.addEventListener('change', e => {
+		encryptMessages = input.checked;
+	});
+
+	const text = document.createTextNode('Encrypt messages');
+
+	label.appendChild(input);
+	label.appendChild(text);
+	chatHead.appendChild(label);
 }
 
 setup();
