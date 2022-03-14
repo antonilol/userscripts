@@ -4,8 +4,8 @@
 // @version      1.0.0
 // @description  Description
 // @author       antonilol
-// @updateURL    https://raw.githubusercontent.com/antonilol/userscripts/master/{NAME}.meta.js
-// @downloadURL  https://raw.githubusercontent.com/antonilol/userscripts/master/{NAME}.user.js
+// @updateURL    https://raw.githubusercontent.com/antonilol/userscripts/master/{NAME}/{NAME}.meta.js
+// @downloadURL  https://raw.githubusercontent.com/antonilol/userscripts/master/{NAME}/{NAME}.user.js
 // @match        https://www.example.com/
 // @icon         https://www.example.com/favicon.ico
 // @grant        none

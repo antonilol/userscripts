@@ -2,4 +2,4 @@
 
 mkdir -p "$1"
 
-sed "s/{NAME}/$1/" template.js > "$1/$1.user.js"
+sed "s/{NAME}/$1/g" template.js > "$1/$1.user.js"
