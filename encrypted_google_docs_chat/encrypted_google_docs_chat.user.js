@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Encrypted Google Docs Chat
 // @namespace    https://github.com/antonilol/userscripts
-// @version      1.0.0
+// @version      1.0.1
 // @description  End to end encryption between users in Google Docs chat
 // @author       antonilol
 // @updateURL    https://raw.githubusercontent.com/antonilol/userscripts/master/encrypted_google_docs_chat/encrypted_google_docs_chat.meta.js
@@ -124,31 +124,35 @@ function send(s) {
 // appear in the chat log
 // sender is undefined for status messages
 function receive(s, sender) {
-	if (sender && !keys[sender.id]) {
-		try {
-			const p = forge.pki.publicKeyFromPem(s);
-			if (p && p.e && p.n && p.encrypt) {
-				if (fingerprint(p) == fingerprint(pub) && (!me || me.id == sender.id)) {
-					me = sender;
-					return { status: `Public key sent.` };
+	if (sender) {
+		if (!keys[sender.id]) {
+			try {
+				if (s.length == 450 || s.length == 451) {
+					const p = forge.pki.publicKeyFromPem(s);
+					if (p && p.e && p.n && p.encrypt) {
+						if (fingerprint(p) == fingerprint(pub) && (!me || me.id == sender.id)) {
+							me = sender;
+							return { status: `Public key sent.` };
+						}
+						keys[sender.id] = {
+							name: sender.name,
+							rsa: p
+						};
+						return { status: `Public key received from ${sender.name}.` };
+					}
 				}
-				keys[sender.id] = {
-					name: sender.name,
-					rsa: p
-				};
-				return { status: `Public key received from ${sender.name}.` };
+			}
+			catch (e) {
 			}
 		}
-		catch (e) {
-		}
-	}
-	if (!sender) {
+		const message = decrypt(s, sender.id == (me && me.id));
+		return { message, decrypted: message != s };
+	} else {
 		if (s.endsWith('has opened the document.')) {
 			setTimeout(() => sendMessage(pem), 0);
 		}
+		return s;
 	}
-	const decrypted = decrypt(s, sender.id == (me && me.id))
-	return { message: sender ? decrypted : s, decrypted: decrypted != s };
 }
 
 var i, prev;
